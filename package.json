@@ -1,7 +1,7 @@
 {
   "name": "repaso",
   "version": "1.0.0",
-  "description": "",
+  "description": "Hola soy un ejemplo de la sesion git y github",
   "main": "index.js",
   "scripts": {
     "start": "nodemon src/index.js",
