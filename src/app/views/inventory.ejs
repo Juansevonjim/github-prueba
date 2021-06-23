@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Repaso</title>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+</head>
+<body>
+    <nav class="navbar navbar-dark bg-dark">
+        <a href="#" class="navbar-brand mx-auto">Mostrar tabla en pantalla</a> 
+    </nav>
+
+    <div class="row">
+        <div class="col-md-6 mt-4 text-center">
+            <table class="table table-striped">
+                <tr>
+                    <th>ID</th>
+                    <th>Item</th>
+                    <th>Descripcion</th>
+                    <th>Timestamp</th>
+                    <th>Borrar</th>
+                    <th>Editar</th>
+                </tr>
+                <% for (let i = 0; i < inventario.length; i++) { %>
+                    <tr>
+                        <th><%= inventario[i].id_elem %></th>
+                        <th><%= inventario[i].title %></th>
+                        <th><%= inventario[i].elemento %></th>
+                        <th><%= inventario[i].data_created %></th>
+                        <th><a href="/delete/<%= inventario[i].id_elem %>">Borrar Entrada</a></th>
+                        <th><button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal<%= inventario[i].id_elem %>" data-bs-whatever="@fat">Editar Entrada</button></th>
+                    </tr>
+
+                    <div class="modal fade" id="exampleModal<%= inventario[i].id_elem %>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                          <div class="modal-content">
+                            <div class="modal-header">
+                              <h5 class="modal-title" id="exampleModalLabel">Editar Datos</h5>
+                              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                              <form method="post" action="/edit/<%=inventario[i].id_elem%>">
+                                <div class="mb-3">
+                                  <label for="recipient-name" class="col-form-label">Título</label>
+                                  <input type="text" class="form-control" id="recipient-name" name="item" value="<%= inventario[i].title %>">
+                                </div>
+                                <div class="mb-3">
+                                  <label for="message-text" class="col-form-label">Descripción</label>
+                                  <input class="form-control" id="message-text" type="text" name="elemento" value="<%= inventario[i].elemento %>" >
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                                    <input type="submit" class="btn btn-primary">
+                                  </div>
+                              </form> 
+                            </div> 
+                          </div>
+                        </div>
+                    </div>
+                <% } %>
+            </table>
+        </div>
+    </div>
+
+
+    <div class="col-md-5 mt-4 card">
+        <form action="inventory" method="POST" class="card-body">
+            <h3 class="card-title">Agregar Items</h3>
+            <div class="form-group">
+                <input type="text" name="item" class="form-control" placeholder="Ingrese el título">
+            </div>
+            <div class="form-group">
+                <input type="text" name="elemento" class="form-control" placeholder="Ingrese la descripción">
+            </div>
+            <input type="submit" class="btn btn-primary">
+        </form>
+    </div>
+
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <% if (typeof alert != "undefined") {%>
+        <script>
+            Swal.fire('Eliminación de entrada exitosa').then(()=> {
+                window.location='/<%= ruta %>'
+            })
+        </script>
+    <% } %>
+</body>
+</html>
